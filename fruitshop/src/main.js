@@ -5,22 +5,29 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from "vue-router";
 import FruitsView from "@/views/FruitsView.vue";
 import EditFruitView from "@/views/EditFruitView.vue";
+import AddFruitView from "@/views/AddFruitView.vue";
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 
+
+
 const routes = [
   { path: '/', component: FruitsView },
-  { path: '/edit/:id', component: EditFruitView }
+  { path: '/edit/:id', component: EditFruitView },
+  { path: '/add', component: AddFruitView}
 ];
 
+
 const router = new VueRouter({
-  routes // (缩写) 相当于 routes: routes
+  mode: 'hash', // 修改为hash模式
+  routes,
 })
 
 
 Vue.config.productionTip = false
 
 new Vue({
+  el: '#app',
   router,
   render: h => h(App),
 }).$mount('#app')

@@ -6,15 +6,21 @@
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-message"></i>商品管理</template>
           <el-menu-item-group>
-            <template slot="title">分组一</template>
+            <template slot="title">商品分类</template>
             <el-menu-item index="1-1">
-              <router-link to="/product/add">添加商品</router-link>
+                <el-dropdown-item>
+                水果
+                </el-dropdown-item>
 
             </el-menu-item>
-            <el-menu-item index="1-2">删除商品</el-menu-item>
+            <el-menu-item index="1-2">生鲜</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
+          <el-menu-item-group title="商品管理">
+            <router-link to="/add">
+
+              <el-menu-item index="1-3">添加商品</el-menu-item>
+
+            </router-link>
           </el-menu-item-group>
           <el-submenu index="1-4">
             <template slot="title">选项4</template>
@@ -87,15 +93,20 @@
             <el-table-column prop="description" label="描述"></el-table-column>
             <el-table-column prop="price" label="价格"></el-table-column>
             <el-table-column prop="change" label="操作">
+
+<!--              <template slot-scope="scope">-->
+
+<!--                <router-link :to="{ path: '/edit/:id', params: { id: scope.row.id } }">-->
+<!--                  <el-button type="warning" size="small">修改</el-button>-->
+<!--                </router-link>-->
+
+<!--                <el-button type="danger" @click="deleteProduct(scope.row.id)">删除</el-button>-->
+<!--              </template>-->
               <template slot-scope="scope">
-
-                <router-link :to="{ path: '/edit', query: { id: scope.row.id } }">
-                  <el-button type="warning" size="small">修改</el-button>
-                </router-link>
-
-                <el-button type="danger" @click="deleteProduct(scope.row.id)">删除</el-button>
+                <el-button type="warning" size="small" @click="handleEdit(scope.row.id)">修改<i class="el-icon-edit"></i></el-button>
+                <el-button type="danger" size="small" @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>
+                </el-button>
               </template>
-
             </el-table-column>
 
           </el-table>
@@ -116,7 +127,6 @@
 }
 </style>
 <script>
-
 import axios from 'axios'
 // const product = {
 //   name: '芒果',
@@ -141,7 +151,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:8080/api/product/findAll')
+    axios.get('http://localhost:8088/api/product/findAll')
         .then(response => {
           this.fruits = response.data
           console.log(this.data().fruits)
@@ -149,7 +159,8 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    // axios.post('http://localhost:8080/api/product/add',product)
+
+    // axios.post('http://localhost:8088/api/product/add',product)
     //     .then(response =>{
     //       console.log("添加数据成功！")
     // }).catch(error => {
@@ -162,19 +173,24 @@ export default {
   },
   methods:{
     deleteProduct(id){
-      axios.delete(`http://localhost:8080/api/product/delete/${id}`)
+
+    },
+    handleEdit(id) {
+      this.$router.push({ path: `/edit/${id}` })
+    },
+    handleDelete(id) {
+      axios.delete(`http://localhost:8088/api/product/delete/${id}`)
           .then(response=>{
             console.log("删除成功！")
-            axios.get('http://localhost:8080/api/product/findAll').then(response=>{
+            axios.get('http://localhost:8088/api/product/findAll').then(response=>{
               this.fruits = response.data
             })
 
           }).catch(error=>{console.log('error!',error)})
 
-    },
-    // editFruit(){
-    //   axios
-    // }
+      // ...
+    }
+
 
   }
 

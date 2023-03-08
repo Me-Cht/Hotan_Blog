@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="edit-fruit-view">
     <el-form :model="form" label-width="80px" ref="form">
       <el-form-item label="名称">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
       <el-form-item label="价格">
-        <el-input v-model.number="form.price"></el-input>
+        <el-input v-model.number="form.price" type="number"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">保存</el-button>
@@ -18,6 +18,9 @@
 import axios from 'axios'
 
 export default {
+    name:"EditFruitView",
+
+
   data() {
     return {
       form: {
@@ -28,10 +31,11 @@ export default {
     }
   },
   mounted() {
-    const id = this.$route.query.id
-    axios.get(`http://localhost:8080/api/product/findById/${id}`)
+    const id = this.$route.params.id;
+    axios.get(`http://localhost:8088/api/product/findById/${id}`)
         .then(response => {
           this.form = response.data
+          console.log("获取成功！")
         })
         .catch(error => {
           console.log('error!', error)
@@ -41,7 +45,7 @@ export default {
     submitForm() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          axios.put(`http://localhost:8080/api/product/update/${this.form.id}`, this.form)
+          axios.put(`http://localhost:8088/api/product/update/${this.form.id}`, this.form)
               .then(response => {
                 console.log('修改成功！')
                 this.$router.push('/')
@@ -58,3 +62,15 @@ export default {
   }
 }
 </script>
+<style scoped>
+.edit-fruit-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #d3d3d3;
+}
+
+</style>

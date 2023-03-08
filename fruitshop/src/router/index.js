@@ -8,12 +8,18 @@ export default defineComponent({
 })
 // 1. 定义路由组件.
 
-const FruitsView = {template:'<div><FruitsView</div>'}
-const EditFruitView = {template: '<div><EditFruitView</div>'}
+const MyFruitsView = {
+    template: '<div><FruitsView /></div>',
+    components: { FruitsView }
+};
+const MyEditFruitView = {
+    template: '<div><EditFruitView /></div>',
+    components: { EditFruitView }
+};
 // 2. 定义路由
 const routes = [
-    { path: '/', component: FruitsView },
-    { path: '/edit', component: EditFruitView },
+    { path: '/', component: MyFruitsView },
+    { path: '/edit', component: MyEditFruitView },
 
 ]
 // 3. 创建路由实例
