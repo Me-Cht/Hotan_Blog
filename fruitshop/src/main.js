@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
 import FruitsView from "@/views/FruitsView.vue";
 import EditFruitView from "@/views/EditFruitView.vue";
 import AddFruitView from "@/views/AddFruitView.vue";
+import SearchView from "@/views/SearchView.vue";
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 
@@ -14,7 +15,8 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', component: FruitsView },
   { path: '/edit/:id', component: EditFruitView },
-  { path: '/add', component: AddFruitView}
+  { path: '/add', component: AddFruitView},
+  {path:'/search',component: SearchView}
 ];
 
 
