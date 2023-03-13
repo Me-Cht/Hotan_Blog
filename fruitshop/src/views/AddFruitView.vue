@@ -22,7 +22,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "AddFruitView",
+  name: "AddFruit",
   data(){
     return {
       form:{
@@ -39,8 +39,10 @@ export default {
     AddProduct(){
       this.$refs.form.validate(valid => {
         if(valid){
-          axios.post("http://localhost:8088/api/product/add",this.form,{headers: {"Content-Type": "application/json"}})
-              .then(response=>{
+          axios.post("http://localhost:8088/api/product/add",
+              this.form,{
+            headers: {"Content-Type": "application/json"}
+          }).then(response=>{
                 console.log("添加成功！")
               })
               .catch(error => {

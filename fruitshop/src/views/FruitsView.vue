@@ -21,6 +21,10 @@
               <el-menu-item index="1-3">添加商品</el-menu-item>
 
             </router-link>
+            <router-link to="/search">
+
+            <el-menu-item index="1-3">查询商品</el-menu-item>
+            </router-link>
           </el-menu-item-group>
           <el-submenu index="1-4">
             <template slot="title">选项4</template>
@@ -70,6 +74,11 @@
             <el-dropdown-item>查看</el-dropdown-item>
             <el-dropdown-item>新增</el-dropdown-item>
             <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item>
+              <router-link to="/login">
+              退出
+              </router-link>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span>陈河天</span>
