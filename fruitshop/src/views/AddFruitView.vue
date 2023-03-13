@@ -22,7 +22,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "AddFruitView",
+  name: "AddFruit",
   data(){
     return {
       form:{

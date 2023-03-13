@@ -74,6 +74,11 @@
             <el-dropdown-item>查看</el-dropdown-item>
             <el-dropdown-item>新增</el-dropdown-item>
             <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item>
+              <router-link to="/login">
+              退出
+              </router-link>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span>陈河天</span>
