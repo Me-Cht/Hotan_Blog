@@ -1,126 +1,54 @@
 <template>
   <div class="login-container">
-    <el-form :model="loginForm" :rules="loginRules" ref="form" label-width="80px">
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
-      </div>
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
-        <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-        />
+    <el-form>
+      <el-form-item label="用户名">
+        <el-input v-model="name"></el-input>
       </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"/>
-        </span>
-        <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-            @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
+      <el-form-item label="密码">
+        <el-input type="password" v-model="password"></el-input>
       </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                 @click.native.prevent="handleLogin">Login
-      </el-button>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      <el-form-item>
+        <el-button type="primary" @click="handleLogin">登录</el-button>
+      </el-form-item>
     </el-form>
-  </div>
+</div>
 </template>
 
 
+
 <script>
-import SvgIcon from "@/components/SvgIcon/index.vue";
+
+import axios from "axios";
 
 export default {
   name: "Login",
-  components: {SvgIcon},
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+
+  data(){
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
-      },
-      loginRules: {
-        username: [{required: true, trigger: 'blur', validator: validateUsername}],
-        password: [{required: true, trigger: 'blur', validator: validatePassword}]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
+      name:"test",
+      password:"test"
     }
   },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
+  methods:{
+    handleLogin(){
+      axios.post('http://localhost:8088/api/user/login',{
+          name:this.name,
+          password:this.password,
+
       })
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          // vuex
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({path: this.redirect || '/'})
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
+          .then(response => {
+            this.$router.push('/home')
+            console.log("登录成功！")
           })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+          .catch(error=>{
+            this.$message({
+              type:'error',
+              message:'用户名或密码错误！'
+            });
+          })
     }
   }
+
 }
 </script>
 
