@@ -151,7 +151,7 @@ export default {
       return this.$route.params.username
     },
   },
-  name: 'FruitsView',
+  name: 'FruitView',
   data() {
     return {
       fruits: [],

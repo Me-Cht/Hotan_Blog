@@ -37,7 +37,7 @@ export default {
 
       })
           .then(response => {
-            this.$router.push('/home')
+            this.$router.push('/')
             console.log("登录成功！")
           })
           .catch(error=>{
