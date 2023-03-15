@@ -38,7 +38,10 @@ export default {
       })
           .then(response => {
             this.$router.push('/')
+            localStorage.setItem('user', JSON.stringify(response.data));
+
             console.log("登录成功！")
+
           })
           .catch(error=>{
             this.$message({
