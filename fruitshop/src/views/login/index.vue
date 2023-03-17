@@ -1,133 +1,104 @@
 <template>
   <div class="login-container">
-    <el-form :model="loginForm" :rules="loginRules" ref="form" label-width="80px">
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
-      </div>
-      <el-form-item prop="username">
-        <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-        >
-
-
-        </el-input>
-        <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-            @keyup.enter.native="handleLogin"
-        ></el-input>
+    <el-form ref="form" :model="form">
+      <el-form-item label="用户名" >
+        <el-input type="text" v-model="form.name" placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item prop="password">
-
-        <span class="show-pwd" @click="showPwd">
-        </span>
+      <el-form-item label="密码">
+        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
       </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                 @click.native.prevent="handleLogin">Login
-      </el-button>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      <el-form-item>
+        <el-button type="primary" @click="handleLogin">登录</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 
+
 <script>
-import SvgIcon from "@/components/SvgIcon/index.vue";
+
 import axios from "axios";
+
+const API_URL = "http://localhost:8088/api/user/login";
+
+// 登录成功
+const CODE_SUCCESS = 0;
+
+// 用户名或密码错误
+const CODE_LOGIN_FAIL = 10000;
+
+// 其他错误
+const CODE_ERROR = 9999;
+
+
+
 export default {
   name: "Login",
-  components: {SvgIcon},
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+
+  data(){
     return {
-      loginForm: {
-        username: '',
-        password: ''
+      form:{
+        name:"test",
+        password:"test"
       },
-      loginRules: {
-        username: [{required: true, trigger: 'blur', validator: validateUsername}],
-        password: [{required: true, trigger: 'blur', validator: validatePassword}]
+      rules: {
+        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, message: "密码长度至少为6个字符", trigger: "blur" }
+            ]
+
       },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
+
+
+      /*为 password 字段定义了两个验证规则，required 规则确保输入不为空，
+      min 规则确保密码长度至少为6个字符。我们还为这些规则定义了触发器类型，
+      即 blur，这意味着当输入框失去焦点时会触发验证。*/
+
     }
   },
   methods: {
+    async handleLogin() {
+      try {
+        await this.$refs.form.validate();
+        await axios.post('http://localhost:8088/api/user/login', {
+          name: this.form.name,
+          password: this.form.password
+        }).then(response =>{
+          const data = response.data;
+          if (data.code === '0') {
+            this.$router.push('/');
+            this.$message(
+                {
+                  type:"success",
+                  message:"登录成功！"
+                }
+            )
+            console.log(data.msg);
+          } else {
+            this.$message({
+              type: 'error',
+              message: data.msg
+            });
+          }
+        }).catch(error => {
+          this.$message({
+            type: 'error',
+            message: '网络错误，请稍后重试！'
+          });
 
-    handleLogin() {
-      this.$refs.form.validate(valid => {
-        if(valid){
-          this.loading = true
-          //vuex
-          axios.post("http://localhost:8088/api/user/login", {
-            username: this.username,
-            password: this.password
-          })
-              .then(response => {
-                const token = response.data.token
-                localStorage.setItem('token',token)
-                this.$router.push('/')
-              })
-              .catch(error=>{
-                console.log(error)
-              })
-        }
-      })
-      // this.$refs.loginForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true
-      //     // vuex
-      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-      //       this.$router.push({path: this.redirect || '/'})
-      //       this.loading = false
-      //     }).catch(() => {
-      //       this.loading = false
-      //     })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
-    }
-  }
-}
+        });
+
+
+
+      } catch (error) {
+        console.error(error);
+        this.$message.error("网络或服务器错误，请稍后再试。");
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">

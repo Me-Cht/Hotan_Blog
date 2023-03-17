@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import FruitsView from "@/views/FruitsView.vue";
-import EditFruitView from "@/views/EditFruitView.vue";
+import FruitsView from "@/views/fruit/FruitsView.vue";
+import EditFruitView from "@/views/fruit/EditFruitView.vue";
 export default {
   name: 'App',
 

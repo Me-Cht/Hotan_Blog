@@ -1,6 +1,6 @@
 import {defineComponent} from "vue";
-import FruitsView from "@/views/FruitsView.vue";
-import EditFruitView from "@/views/EditFruitView.vue";
+import FruitsView from "@/views/fruit/FruitsView.vue";
+import EditFruitView from "@/views/fruit/EditFruitView.vue";
 import VueRouter from "vue-router";
 import Vue from "vue";
 export default defineComponent({
