@@ -1,6 +1,5 @@
 <template>
   <div class="login-container">
-<<<<<<< HEAD
     <el-form ref="form" :model="form">
       <el-form-item label="用户名" >
         <el-input type="text" v-model="form.name" placeholder="请输入用户名"></el-input>
@@ -18,20 +17,6 @@
     </el-form>
 
   </div>
-=======
-    <el-form>
-      <el-form-item label="用户名">
-        <el-input v-model="name"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input type="password" v-model="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleLogin">登录</el-button>
-      </el-form-item>
-    </el-form>
-</div>
->>>>>>> master
 </template>
 
 
@@ -39,7 +24,6 @@
 <script>
 
 import axios from "axios";
-<<<<<<< HEAD
 
 const API_URL = "http://localhost:8088/api/user/login";
 
@@ -53,15 +37,12 @@ const CODE_LOGIN_FAIL = 10000;
 const CODE_ERROR = 9999;
 
 
-=======
->>>>>>> master
 
 export default {
   name: "Login",
 
   data(){
     return {
-<<<<<<< HEAD
       form:{
         name:"test",
         password:"test"
@@ -123,36 +104,6 @@ export default {
     },
   },
 };
-=======
-      name:"test",
-      password:"test"
-    }
-  },
-  methods:{
-    handleLogin(){
-      axios.post('http://localhost:8088/api/user/login',{
-          name:this.name,
-          password:this.password,
-
-      })
-          .then(response => {
-            this.$router.push('/')
-            localStorage.setItem('user', JSON.stringify(response.data));
-
-            console.log("登录成功！")
-
-          })
-          .catch(error=>{
-            this.$message({
-              type:'error',
-              message:'用户名或密码错误！'
-            });
-          })
-    }
-  }
-
-}
->>>>>>> master
 </script>
 
 <style lang="scss">
