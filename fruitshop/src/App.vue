@@ -5,8 +5,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import FruitsView from "@/views/fruit/FruitsView.vue";
 import EditFruitView from "@/views/fruit/EditFruitView.vue";
+=======
+>>>>>>> master
 export default {
   name: 'App',
 
