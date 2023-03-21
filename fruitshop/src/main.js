@@ -8,6 +8,7 @@ import EditFruitView from "@/views/fruit/EditFruitView.vue";
 import AddFruit from "@/views/fruit/AddFruitView.vue";
 import SearchView from "@/views/fruit/SearchView.vue";
 import Login from "@/views/login/index.vue";
+import register from "@/views/register/index.vue";
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
@@ -21,7 +22,8 @@ const routes = [
   { path: '/edit/:id', component: EditFruitView },
   { path: '/add', component: AddFruit},
   {path:'/search',component: SearchView},
-  {path:'/login',component: Login}
+  {path:'/login',component: Login},
+  {path: '/register',component: register}
 ];
 
 
