@@ -9,8 +9,13 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleLogin">登录</el-button>
+
+        <router-link to="/register">
+          <el-button style="margin-left: 50px">注册</el-button>
+        </router-link>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
