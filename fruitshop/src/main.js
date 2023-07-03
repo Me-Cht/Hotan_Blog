@@ -3,12 +3,17 @@ import App from './App.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from "vue-router";
-import FruitsView from "@/views/fruit/FruitsView.vue";
-import EditFruitView from "@/views/fruit/EditFruitView.vue";
-import AddFruit from "@/views/fruit/AddFruitView.vue";
-import SearchView from "@/views/fruit/SearchView.vue";
-import Login from "@/views/login/index.vue";
+import Dashboard from "@/views/fruit/Dashboard.vue";
+import detail from "@/views/fruit/detail/FruitDetail.vue";
+import searchView from "@/views/fruit/search/SearchView.vue";
+import edit from "@/views/fruit/edit/index.vue";
+import add from "@/views/fruit/add/index.vue";
+import login from "@/views/login/index.vue";
+import userdetail from "@/views/user/userdetail/index.vue";
 import register from "@/views/register/index.vue";
+import home from "@/site/home/index.vue";
+import about from "@/site/about/about.vue";
+import product from "@/site/product/index.vue";
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
@@ -18,12 +23,21 @@ function isAuthenticated() {
 }
 
 const routes = [
-  { path: '/', component: FruitsView, meta: { requiresAuth: true } },
-  { path: '/edit/:id', component: EditFruitView },
-  { path: '/add', component: AddFruit},
-  {path:'/search',component: SearchView},
-  {path:'/login',component: Login},
-  {path: '/register',component: register}
+  { path:'/',redirect:'/login'},
+  { path:'/register',component: register},
+  { path:'/about',component: about},
+  { path:'/product',component: product},
+  { path: '/home',component: home},
+  { path: '/login',component: login},
+  { path: '/dashboard',component: Dashboard,
+    children:[
+      { path:'/detail',component: detail},
+      { path: '/search',component: searchView},
+      { path:'/edit',component: edit},
+      { path:'/add',component: add},
+      { path:'/userdetail',component: userdetail}
+
+    ]},
 ];
 
 
@@ -51,9 +65,6 @@ router.beforeEach((to, from, next) => {
   }
 
 });
-
-
-
 
 Vue.config.productionTip = false
 

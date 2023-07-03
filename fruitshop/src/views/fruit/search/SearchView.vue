@@ -13,9 +13,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="价格">
-        <el-input v-model="queryForm.minPrice" placeholder="最低价"></el-input>
-        <span> - </span>
-        <el-input v-model="queryForm.maxPrice" placeholder="最高价"></el-input>
+        <el-input v-model="queryForm.minPrice" placeholder="最低价" style="width: 100px;"></el-input>~
+        <el-input v-model="queryForm.maxPrice" placeholder="最高价" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="doQuery">查询</el-button>

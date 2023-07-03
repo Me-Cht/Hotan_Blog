@@ -1,34 +1,37 @@
-import {defineComponent} from "vue";
-import FruitsView from "@/views/fruit/FruitsView.vue";
-import EditFruitView from "@/views/fruit/EditFruitView.vue";
-import VueRouter from "vue-router";
-import Vue from "vue";
-export default defineComponent({
-    components: {EditFruitView, FruitsView}
-})
-// 1. 定义路由组件.
-
-const MyFruitsView = {
-    template: '<div><FruitsView /></div>',
-    components: { FruitsView }
-};
-const MyEditFruitView = {
-    template: '<div><EditFruitView /></div>',
-    components: { EditFruitView }
-};
-// 2. 定义路由
-const routes = [
-    { path: '/', component: MyFruitsView },
-    { path: '/edit', component: MyEditFruitView },
-
-]
-// 3. 创建路由实例
-const router = new VueRouter({
-    mode:"history",
-    routes // (缩写) 相当于 routes: routes
-})
-
-// 5. 创建并挂载根实例
-const app = new Vue({
-    router
-}).$mount('#app')
+// import Dashboard from "@/views/fruit/Dashboard.vue";
+// import VueRouter from "vue-router";
+// import FruitDetail from "@/views/fruit/userdetail/FruitDetail.vue";
+// import searchView from "@/views/fruit/search/SearchView.vue";
+// import edit from "@/views/fruit/edit/index.vue";
+// import add from "@/views/fruit/add/index.vue";
+// // export default defineComponent({
+// //     components: {EditFruitView, FruitsView}
+// // })
+// // 1. 定义路由组件.
+//
+// D
+// // 2. 定义路由
+// const routes = [
+//     { path: '/dashboard',component: Dashboard,
+//     children:[
+//         { path:'/userdetail',component: FruitDetail},
+//         { path: '/search',component: searchView},
+//         { path:'/edit',component: edit},
+//         { path:'add',component: add}
+//
+//     ]}
+//
+//
+// ]
+// // 3. 创建路由实例
+// const router = new VueRouter({
+//     mode:"history",
+//     routes // (缩写) 相当于 routes: routes
+// })
+//
+// // 4.导航守卫，将自动跳转至登陆界面
+// router.beforeEach((to, from, next)=>{
+//
+//
+// })
+//
