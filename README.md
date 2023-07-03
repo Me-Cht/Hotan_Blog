@@ -1,4 +1,4 @@
-# fruitshop0306
+# Hotan的个人博客系统
 
 ## Project setup
 ```
