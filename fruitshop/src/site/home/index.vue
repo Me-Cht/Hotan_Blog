@@ -27,9 +27,10 @@
         </li>
         <li>MyGitHub</li>
         <li>
-          <a href="">
+          <router-link to="/blog">
             博客blog
-          </a>
+
+          </router-link>
         </li>
         <li>
           <router-link to="/product">

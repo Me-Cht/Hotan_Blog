@@ -13,7 +13,9 @@ import userdetail from "@/views/user/userdetail/index.vue";
 import register from "@/views/register/index.vue";
 import home from "@/site/home/index.vue";
 import about from "@/site/about/about.vue";
-import product from "@/site/product/index.vue";
+import product from "@/site/product/mianpage/index.vue";
+import todolist from "@/site/product/todolist/todolist.vue";
+import blog from "@/site/blog/index.vue";
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
@@ -26,7 +28,11 @@ const routes = [
   { path:'/',redirect:'/login'},
   { path:'/register',component: register},
   { path:'/about',component: about},
-  { path:'/product',component: product},
+  {path:'/todolist',component: todolist},
+
+  { path:'/product',component: product,
+  children: [
+  ]},
   { path: '/home',component: home},
   { path: '/login',component: login},
   { path: '/dashboard',component: Dashboard,
@@ -38,6 +44,7 @@ const routes = [
       { path:'/userdetail',component: userdetail}
 
     ]},
+  { path:'/blog',component: blog}
 ];
 
 
