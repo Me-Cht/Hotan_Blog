@@ -69,7 +69,6 @@ export default {
   mounted() {
     console.log("token:", this.$store.state.token);
     api.getArticle().then((response) => {
-
       console.log(response.data);
       this.blogs = response.data;
     });
