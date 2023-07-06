@@ -4,14 +4,14 @@
       <div class="title">
         <p>Welcome to DeckLiza</p>
         <div class="login">
-          <a href="">我的账户⬇</a>
+          <a href="">
+            {{user.name}}⬇
+          </a>
           <ul>
-            <li><a href="../account/login.html">登录</a></li>
-            <li><a href="../account/register.html">注册</a></li>
-            <!--                <li><a href="details.html">个人信息</a></li>-->
+            <li><a href="../account/login.html">个人信息</a></li>
             <li><a href="forget.html">忘记密码</a></li>
             <li><a href="help.html">帮助中心</a></li>
-
+            <li><a href="/login">退出</a></li>
 
           </ul>
         </div>
@@ -21,82 +21,81 @@
     <div class="nev">
       <ul class="horizontal-list">
         <li>
-          <router-link to="/about">
+          <router-link to="/main" id="nav_list">
+            首页
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/about" id="nav_list">
             个人简介
           </router-link>
         </li>
-        <li>MyGitHub</li>
         <li>
-          <router-link to="/blog">
-            博客blog
-
+          <router-link to="/github" id="nav_list">
+            接口测试
           </router-link>
         </li>
         <li>
-          <router-link to="/product">
+          <router-link to="/blog" id="nav_list">
+            博客blog
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/product" id="nav_list">
             作品集
           </router-link>
         </li>
       </ul>
     </div>
-    <div class="content">
-      <div class="text">
-        <h1>
-          Deck Liza
-        </h1>
-        <span>
-        致力于前端网页设计及后台开发，享受开发过程
-    </span>
-        <div class="account">
-        <span><a href="" target="_blank">社媒账号：Me-Cht</a>
-        </span>
-        </div>
-        <div class="communicate">
-          <ul>
-            <li><a href="https://github.com"><img src="../../img/icon/github.png" alt=""></a></li>
-            <li><a href=""></a><img src="../../img/icon/QQ.png" alt=""></li>
-            <li><a href=""></a><img src="../../img/icon/微信.png" alt=""></li>
-            <li><a href=""></a><img src="../../img/icon/facebook.png" alt=""></li>
-          </ul>
-
-        </div>
-      </div>
-      <div class="logo">
-        <img src="../../img/logo/DeckLiza.png" alt="">
-      </div>
-
-    </div>
 
 
-    <div class="message_box">
-      <div class="message_img">
-        <img src="../../img/logo/留言板.png" alt="">
-      </div>
-      <div class="message_board">
-        <h2>请写下你的留言～</h2>
-        <form class="message_form">
-          <textarea type="text" id="message_input" placeholder="请输入留言内容" maxlength="200"></textarea>
-          <button type="submit" id='sub' onclick="return false;"><img src="../../img/icon/发送-提交.png" alt="">
-          </button>
-        </form>
-        <div class="wrapper">
-          <span class="total">0/200字</span>
-        </div>
-        <div class="my_message">
-          <span>我的留言：</span>
-          <ul id="my_message"></ul>
 
-        </div>
-      </div>
+    <router-view></router-view>
 
-    </div>
   </div>
+
 </template>
-<script src="jquery-3.5.1"></script>
+
 <script>
+import {defineComponent} from "vue";
+import HomeContent from "@/site/home/HomeContent.vue";
+
+export default defineComponent({
+  components: {HomeContent}
+})
+</script>
+<script>
+
+
+import api from "@/api/api";
 
 export default {
   name: "index",
+  data(){
+    return{
+      user:{
+        name:'登陆',
+      }
+    }
+  },
+
+
+  mounted() {
+    // const token = this.$store.state.token
+    const token = localStorage.getItem('token')
+    console.log(token)
+    if(token){
+      console.log(token)
+
+      api.getUserInfo().then(response => {
+        this.user = JSON.parse(response.data.msg)
+        console.log(this.user)
+      })
+    }
+
+
+  },
+
 
 }
 
@@ -249,28 +248,37 @@ body {
 
 /*导航栏目*/
 .nev {
+  width: 1200px;
   clear: both;
+  margin:50px auto;
+
 }
 
 .nev .horizontal-list {
+
   display: flex;
   list-style: none;
   padding: 0;
+  justify-content: space-around;
 }
 
 .nev .horizontal-list li {
-  margin: 10px;
+
   font-size: 20px;
-  flex: 1;
 }
 
 .horizontal-list li:first-child {
-  margin-left: 300px;
+
 }
 
 .horizontal-list li:last-child {
 }
 
+
+#nav_list {
+  color:#eee;
+  text-decoration: none;
+}
 /*DeckLiza*/
 .content {
   width: 1200px;

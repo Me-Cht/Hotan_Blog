@@ -49,6 +49,7 @@
 
 <script>
 const axios = require('axios').default;
+import {mapActions} from "vuex";
 
 const API_LOGIN = 'http://localhost:8088/api/user/login'
 
@@ -82,51 +83,41 @@ export default {
         checkPass: "password123",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        pass: [{validator: validatePass, trigger: "blur"}],
+        checkPass: [{validator: validatePass2, trigger: "blur"}],
       },
     };
   },
   methods: {
+    ...mapActions(['saveToken']), // 映射 saveToken action 到组件方法
     async submitForm(formName) {
-      await axios.post(API_LOGIN,{
-        name:this.ruleForm.pass,
-        password:this.ruleForm.checkPass
-        /**/
-      }).then(response => {
-        console.log(this.ruleForm)
-        const data = response.data
-        if(data.code === '0'){
-          console.log('登陆成功')
-          alert('登陆成功！')
-          this.$router.push('/home')
-        }else{
-          console.log('登陆失败')
-          alert("账号或密码错误")
-        }
-      })
+      try {
+        const response = await axios.post(API_LOGIN, {
+          name: this.ruleForm.pass,
+          password: this.ruleForm.checkPass
+        });
+        const data = response.data;
+        console.log(response.data)
+        if (data.code === '0') {
+          const token = response.data.data;
+          //token保存到store
+          // this.$store.commit("setToken",token)
+          //token保存到localStorage
+          localStorage.setItem('token',token)
+          alert("登陆成功")
 
-
-
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log(valid)
-          this.loading = true;
-          //设置定时器自动加载失败
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
+          await this.$router.push('/home')
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('登录失败');``
+          alert('账号或密码错误');
         }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-  },
-};
+
+      } catch (error) {
+        console.error('登录错误：', error);
+      }
+    }
+  }
+}
 </script>
 
 
