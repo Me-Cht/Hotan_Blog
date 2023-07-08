@@ -133,6 +133,7 @@ export default {
         if (valid) {
           try {
             const response = await api.register(this.ruleForm)
+
             if (response.data.code === '0'){
               alert('注册成功!');
               await this.$router.push('/login')
@@ -154,7 +155,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 * {
   padding: 0;
   margin: 0;

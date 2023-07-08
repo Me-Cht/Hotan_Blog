@@ -6,5 +6,9 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0"
+  },
+  "dependencies": {
+    "moment": "^2.29.4",
+    "vue-quill-editor": "^3.0.6"
   }
 }

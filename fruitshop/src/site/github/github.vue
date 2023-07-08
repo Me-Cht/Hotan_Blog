@@ -1,6 +1,7 @@
 <template>
 <div>
   <el-button @click="getUserInfo">获取用户信息接口测试</el-button>
+  <router-link to="/temp">temp</router-link>
 
 </div>
 
@@ -8,8 +9,10 @@
 
 <script>
 import api from "@/api/api";
+import TempTest from "@/site/blog/tempTest.vue";
 export default {
   name: "github",
+  components: {TempTest},
   methods:{
     getUserInfo(){
       const token = localStorage.getItem('token')

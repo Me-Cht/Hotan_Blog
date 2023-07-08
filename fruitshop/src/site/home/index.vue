@@ -1,53 +1,53 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="title">
-        <p>Welcome to DeckLiza</p>
-        <div class="login">
-          <a href="">
-            {{user.name}}⬇
-          </a>
-          <ul>
-            <li><a href="../account/login.html">个人信息</a></li>
-            <li><a href="forget.html">忘记密码</a></li>
-            <li><a href="help.html">帮助中心</a></li>
-            <li><a href="/login">退出</a></li>
+  <div class="home-container" >
+    <div class="header-container">
+      <div class="header-left">
+        <img src="../../img/logo/DeckLiza.png" alt="">
+        <span>DeckLiza</span>
+      </div>
+      <div class="header-center">
+        <ul class="horizontal-list">
+          <li>
+            <router-link to="/main" id="nav_list">
+              首页
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/about" id="nav_list">
+              个人简介
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/github" id="nav_list">
+              接口测试
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/blog" id="nav_list">
+              博客blog
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/product" id="nav_list">
+              作品集
+            </router-link>
+          </li>
+        </ul>
 
-          </ul>
-        </div>
+      </div>
+      <div class="login">
+        <a href="">
+          {{user.name}}⬇
+        </a>
+        <ul>
+          <li><a href="../account/login.html">个人信息</a></li>
+          <li><a href="forget.html">忘记密码</a></li>
+          <li><a href="help.html">帮助中心</a></li>
+          <li><a href="/login">退出</a></li>
+
+        </ul>
       </div>
     </div>
-
-    <div class="nev">
-      <ul class="horizontal-list">
-        <li>
-          <router-link to="/main" id="nav_list">
-            首页
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/about" id="nav_list">
-            个人简介
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/github" id="nav_list">
-            接口测试
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/blog" id="nav_list">
-            博客blog
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/product" id="nav_list">
-            作品集
-          </router-link>
-        </li>
-      </ul>
-    </div>
-
 
 
     <router-view></router-view>
@@ -78,8 +78,6 @@ export default {
       }
     }
   },
-
-
   mounted() {
     const token = localStorage.getItem('token')
     if(token){
@@ -87,129 +85,73 @@ export default {
         this.user = JSON.parse(response.data.msg)
       })
     }
-
-
   },
-
-
 }
-
-//
-// //  留言板样式变化
-// // 定义变量
-// //留言板ID
-// const message_input = document.querySelector('#message_input')
-// //提交按钮
-// const submit = document.querySelector('#sub')
-// //已留言ID
-// const my_message = document.querySelector('#my_message')
-// //留言内容
-// const message01 = document.querySelector('#message01')
-// // 字数限制
-// const total = document.querySelector('.total')
-// //  留言板样式变化
-// message_input.addEventListener('focus', function () {
-//   console.log('聚焦了')
-//   message_input.classList.add('new_board')
-//   total.style.opacity = 1;
-// })
-// //  留言板样式变化
-// message_input.addEventListener('blur', function () {
-//   console.log('失去了焦点')
-//   message_input.classList.remove('new_board')
-//
-//   total.style.opacity = 0;
-//
-// })
-// // 留言板样式变化
-//
-//
-// //点击提交进行留言
-// message_input.addEventListener('submit', function (event) {
-//   event.preventDefault(); // 阻止表单默认提交行为
-//   const message = message_input.value; // 获取输入框的值
-// // 在这里执行提交内容的逻辑，例如发送到服务器或添加到留言列表
-// // 清空输入框的值
-//   message_input.value = '';
-//
-// })
-//
-// //留言字数统计
-// message_input.addEventListener('input', function (event) {
-//   console.log(message_input.value.length)//得到输入字符串的长度
-//   total.innerHTML = `${message_input.value.length}/200`
-// })
-// // 点击提交进行留言
-// submit.addEventListener('click', function (event) {
-//   event.preventDefault(); // 阻止表单默认提交行为
-//   total.style.opacity = 1;
-//   const message = message_input.value; // 获取输入框的值
-// // 在这里执行提交内容的逻辑，例如发送到服务器或添加到留言列表
-// // 将留言内容显示在留言板上
-//   my_message.innerHTML = `我的留言：${message}`;
-// // 清空输入框的值
-//   message_input.value = '';
-// });
-// // 回车提交留言
-// message_input.addEventListener('keyup', function (event) {
-//   if (event.key === 'Enter') {
-//     const message = message_input.value; // 获取输入框的值
-//     const li = document.createElement('li')
-//     li.innerHTML = `${message}`
-//     console.log(message.children)
-// // 清空输入框的值
-//     li.style.width = '430px';
-//     li.style.height = '70px'
-//     li.style.marginRight = "30px"
-//     my_message.appendChild(li)
-//     message_input.value = '';
-//   }
-// })
-// $(document).ready(function () {
-//   $('.login').hover(function () {
-//     $(this).find('ul').show()
-//
-//   }, function () {
-//     $(this).find('ul').hide();
-//   });
-// });
-//
-
 </script>
 
 <style scoped>
-body {
-  background-color: rgb(230, 223, 217);
-}
-
-.header {
-  overflow: hidden; /* 清除浮动 */
-  background-color: #f1f1f1;
-  padding: 20px;
-}
-
-.header p {
-  color: darkgreen;
-  font-size: 50px;
-  text-align: center;
+* {
+  padding: 0;
   margin: 0;
 }
-
-.header img {
-  width: 56px;
-  height: 56px;
-  float: left;
+body {
+  margin:0;
+}
+.home-container {
+  position: relative;
 }
 
-.header .login {
+
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  height: 50px;
+  margin-top: 0;
+  background-color: rgb(240, 242, 245);
+
+}
+.header-left {
+  position: absolute;
+  left: 50px;
+
+}
+.header-left img{
+  width: 50px;
+  height: 50px;
+
+}
+.header-left span {
+  position: absolute;
+  left:60px;
+  top:14px;
+}
+
+.header-center {
+  width: 450px;
+  position: absolute;
+  left: 300px;
+  top:4px;
+}
+.header-center li{
+  padding: 10px;
+  background-color: rgb(255, 255, 255);
+ }
+
+
+.header-container .login {
   height: 50px;
   width: 100px;
-  float: right;
-  margin-top: 30px;
   background-color: rgb(48, 100, 104);
+  position:absolute;
+  right: 50px;
+  top:0;
+  z-index: 99;
 }
 
-.header .login a {
+.header-container .login a {
   line-height: 50px;
   text-align: center;
   text-decoration: none;
@@ -218,7 +160,7 @@ body {
 
 }
 
-.header .login ul {
+.header-container .login ul {
   display: none;
   position: absolute;
   background-color: rgb(48, 100, 104);
@@ -229,7 +171,7 @@ body {
 
 }
 
-.header .login ul li {
+.header-container .login ul li {
   padding: 10px;
   width: 80px;
   transition: all 0.3s ease-in-out;
@@ -237,7 +179,7 @@ body {
 
 }
 
-.header .login:hover ul {
+.header-container .login:hover ul {
   display: block;
 }
 
@@ -249,7 +191,7 @@ body {
 
 }
 
-.nev .horizontal-list {
+.header-center .horizontal-list {
 
   display: flex;
   list-style: none;
@@ -257,9 +199,9 @@ body {
   justify-content: space-around;
 }
 
-.nev .horizontal-list li {
+.header-center .horizontal-list li {
 
-  font-size: 20px;
+
 }
 
 .horizontal-list li:first-child {
@@ -271,7 +213,7 @@ body {
 
 
 #nav_list {
-  color:#eee;
+  color:black;
   text-decoration: none;
 }
 /*DeckLiza*/
