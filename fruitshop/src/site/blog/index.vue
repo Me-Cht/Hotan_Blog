@@ -31,6 +31,11 @@
       <el-row>
         <div v-html="blog.content"></div>
       </el-row>
+      <el-row>
+        <div>{{blog.author_id}}</div>
+        <div>{{blog.create_time}}</div>
+        <div>{{blog.auth_name}}</div>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -43,21 +48,36 @@ export default {
     return {
       showEditor: false,
       blog: {
+        id:'',
         title: '',
         content: '',
+        author_id:'',
+        create_time:'',
+        auth_name:''
+
       },
       blogs: []
     };
   },
   methods: {
     saveBlog() {
-      // console.log('this.blog:',this.blog)
-      api.writeArticle(this.blog)
-        .then(response=>{
-          console.log(response)
-          this.cancelBlog();
-        })
+      api.getUserInfo().then((response)=>{
+        const temp = JSON.parse(response.data.msg)
+        console.log(temp)
+        this.blog.author_id = temp.id
 
+        console.log("this.blog.name",this.blog.name)
+        api.writeArticle(this.blog)
+          .then(response=>{
+            this.cancelBlog();
+            this.refreshBlogs(); // 调用刷新博客列表的方法
+          })
+      })
+    },
+    refreshBlogs() {
+      api.getArticle().then((response) => {
+        this.blogs = response.data;
+      });
     },
     cancelBlog() {
       this.showEditor = false;
@@ -69,9 +89,9 @@ export default {
   mounted() {
     console.log("token:", this.$store.state.token);
     api.getArticle().then((response) => {
-      console.log(response.data);
       this.blogs = response.data;
     });
+
   }};
 //TODO 新增博客作者、ID及创建时间。
 </script>

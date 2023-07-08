@@ -81,15 +81,10 @@ export default {
 
 
   mounted() {
-    // const token = this.$store.state.token
     const token = localStorage.getItem('token')
-    console.log(token)
     if(token){
-      console.log(token)
-
       api.getUserInfo().then(response => {
         this.user = JSON.parse(response.data.msg)
-        console.log(this.user)
       })
     }
 

@@ -40,7 +40,7 @@ export  const register = () => {
 }
 
 export const getUserInfo = () => {
-    console.log(store.state.token)
+    console.log("store.state.token",store.state.token)
     return axios.get('/api/user/info/',{
         params:{
             token:store.state.token
@@ -75,6 +75,7 @@ export const getArticle=()=>{
 export const writeArticle = (article) =>{
     return request('post','/api/article/write',article)
 }
+
 
 
 export default {
