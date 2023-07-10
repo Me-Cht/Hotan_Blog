@@ -17,6 +17,7 @@ import add from "@/views/fruit/add/index.vue";
 import userdetail from "@/views/user/userdetail/index.vue";
 import store from "@/store/store";
 import tempTest from "@/site/blog/tempTest.vue";
+import info from "@/site/personal/Info.vue";
 
 Vue.use(VueRouter)
 // function isAuthenticated() {
@@ -34,6 +35,7 @@ const routes = [
             { path:'/about',component: about},
             { path:'/blog',component: blog},
             { path:'/product',component: product},
+            { path: '/info',component: info},
             { path:'/github',component: github,
             children:[
             ]}

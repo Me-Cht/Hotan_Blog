@@ -25,7 +25,7 @@
     <!-- 博客内容 -->
     <el-card v-for="blog in blogs" :key="blog.id" class="blog-card">
       <el-row>
-        <div class="blog-title">{{ blog.title }}</div>
+        <div class="blog-title" style="font-size: 30px;font-weight: bold;">{{ blog.title }}</div>
       </el-row>
       <el-row>
         <div v-html="blog.content"></div>
@@ -41,6 +41,7 @@
 <script>
 import api from "@/api/api";
 import moment from 'moment';
+
 
 export default {
   data() {

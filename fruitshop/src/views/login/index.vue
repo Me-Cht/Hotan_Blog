@@ -109,9 +109,44 @@ export default {
   },
 };
 </script>
-<style scoped>
-
-
-
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: rgb(135, 206, 235);
+}
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+#admin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -250px;
+  width: 500px;
+  height: 550px;
+  background: #fff;
+  border-radius: 10%;
+  box-shadow: 8px 10px 10px rgb(177, 223, 242);
+}
+.adminh1 {
+  margin: 20px 0;
+  text-shadow: 10px 13px 3px rgb(207, 207, 207);
+  text-align: center;
+}
+.pos {
+  width: 450px;
+  height: 350px;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
 </style>
+
 

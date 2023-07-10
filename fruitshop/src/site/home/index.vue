@@ -40,10 +40,9 @@
           {{user.name}}⬇
         </a>
         <ul>
-          <li><a href="../account/login.html">个人信息</a></li>
-          <li><a href="forget.html">忘记密码</a></li>
-          <li><a href="help.html">帮助中心</a></li>
-          <li><a href="/login">退出</a></li>
+          <li><router-link to="/info">个人中心</router-link></li>
+          <li><router-link to="">帮助中心</router-link></li>
+          <li><router-link to="">退出</router-link></li>
 
         </ul>
       </div>
@@ -68,6 +67,7 @@ export default defineComponent({
 
 
 import api from "@/api/api";
+import getinfo from "@/api/getinfo";
 
 export default {
   name: "index",
@@ -75,16 +75,32 @@ export default {
     return{
       user:{
         name:'登陆',
+        email:''
       }
     }
   },
   mounted() {
     const token = localStorage.getItem('token')
-    if(token){
-      api.getUserInfo().then(response => {
-        this.user = JSON.parse(response.data.msg)
-      })
-    }
+    // if(token){
+    //   api.getUserInfo().then(response => {
+    //     this.user = JSON.parse(response.data.msg)
+    //     return this.user
+    //   })
+    // }
+    api.getDetailInfo().then(data => {
+      this.user = data
+      console.log(data);
+    }).catch(error => {
+      console.log(error);
+    });
+
+    // api.getUserInfo(response=>{
+    //   console.log("response:getUserInfo",response)
+    //
+    // })
+
+
+
   },
 }
 </script>
@@ -103,7 +119,6 @@ body {
 
 
 .header-container {
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
