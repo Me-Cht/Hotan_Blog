@@ -1,6 +1,6 @@
 import router from "@/router/router";
 
-const baseURL = 'http://localhost:8088';
+const baseURL = 'http://hotan.site:8088';
 import store from "@/store/store";
 import axios from 'axios'
 axios.defaults.baseURL = baseURL;
@@ -79,6 +79,21 @@ export const getUserInfo = () => {
         }
     })
     };
+
+export const testlogin = () => {
+    const data = {
+        name:'',
+        password:''
+    }
+    const response = axios.get('/api/user/login',data)
+    const result =response.data;
+        if(result.code === '0'){
+            const token = response.data.data;
+            localStorage.setItem('token',token)
+        }else {
+            alert("账号或密码错误！")
+        }
+}
 export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -126,6 +141,7 @@ export default {
     requestWithParams,
     logout,
     getDetailInfo,
-    getSelfArticle
+    getSelfArticle,
+    testlogin
     // 导出其他接口函数...
 };

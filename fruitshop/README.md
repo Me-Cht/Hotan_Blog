@@ -1,6 +1,7 @@
-# fruitshop
+# Hotan-Blog个人博客平台
 
 ## Project setup
+
 ```
 yarn install
 ```

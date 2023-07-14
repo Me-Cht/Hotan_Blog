@@ -1,97 +1,81 @@
 <template>
-  <div id="app">
-    <div id="admin">
-      <div class="pos">
-        <h1 class="adminh1">用户注册</h1>
-        <el-form
-          :model="ruleForm"
-          status-icon
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm">
-          <el-form-item label="请输入账户名" prop="name">
-            <el-input
-              type="text"
-              v-model="ruleForm.name"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input
-              type="email"
-              v-model="ruleForm.email"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="年龄" prop="age">
-            <el-input
-              v-model.number="ruleForm.age"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-button><router-link to="/login">返回登陆</router-link></el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
+  <div class="container" :style="{'background-image': `url(${require('@/assets/header/headBackground.png')})`, 'background-size': 'auto 100%'}">
+
+  <div class="registration-container">
+    <div class="registration-content">
+      <h1>Welcome</h1>
+      <p>Join Us!</p>
+      <div class="logo">
+        <img src="@/assets/logo/DeckLiza.png" alt="Logo">
       </div>
+      <h2 class="form-title">注册</h2>
+      <form ref="ruleForm" @submit.prevent="reg_submitForm('ruleForm')">
+        <div class="form-group">
+          <input type="text" placeholder="用户名" v-model="ruleForm.name">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="密码" v-model="ruleForm.password">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="确认密码" v-model="ruleForm.checkPass">
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="邮箱" v-model="ruleForm.email">
+        </div>
+        <button type="submit" @click="reg_submitForm">注册</button>
+      </form>
+      <p class="switch-link" @click="switchToLogin">已有账号？去登录</p>
     </div>
+  </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import api from "@/api/api";
+import { required, email, minLength } from 'vuelidate/lib/validators';
+import { validationMixin } from 'vuelidate';
 
 export default {
+  name: 'RegistrationPage',
   data() {
-    var checkAge = (rule, value, callback) => {
+    const checkAge = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('年龄不能为空'));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('请输入数字值'));
-        } else {
-          if (value < 15) {
-            callback(new Error('必须年满15岁'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    var checkEmail = (rule, value ,callback) => {
-      if (!value){
-        return callback(new Error("邮箱不能为空"));
-      }else{
-        var emailPattern =  /^[\w-]+(.[\w-]+)*@[\w-]+(.[\w-]+)+$/; // 正则表达式匹配电子邮箱格式
-        if(!emailPattern.test(value)){
-          return callback(new Error("请输入正确的邮箱格式"))
-        }else{
-          callback();
-      }
-
-      }
-    }
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('年龄不能为空'));
+      } else if (!Number.isInteger(value)) {
+        callback(new Error('请输入数字值'));
+      } else if (value < 15) {
+        callback(new Error('必须年满15岁'));
       } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
         callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
+
+    const checkEmail = (rule, value ,callback) => {
+      if (!value) {
+        callback(new Error("邮箱不能为空"));
+      } else {
+        const emailPattern = /^[\w-]+(.[\w-]+)*@[\w-]+(.[\w-]+)+$/; // 正则表达式匹配电子邮箱格式
+        if (!emailPattern.test(value)) {
+          callback(new Error("请输入正确的邮箱格式"));
+        } else {
+          callback();
+        }
+      }
+    };
+
+    const validatePass = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入密码'));
+      } else if (this.ruleForm.checkPass !== '') {
+        this.$refs.ruleForm.validateField('checkPass');
+        callback();
+      } else {
+        callback();
+      }
+    };
+
+    const validatePass2 = (rule, value, callback) => {
+      if (!value) {
         callback(new Error('请再次输入密码'));
       } else if (value !== this.ruleForm.password) {
         callback(new Error('两次输入密码不一致!'));
@@ -100,97 +84,121 @@ export default {
       }
     };
 
-
     return {
       ruleForm: {
-        name:'吴秉坤',
-        email:'232313232@qq.com',
-        age: 21,
+        name: '',
+        email: '',
+        age: '',
         password: '',
         checkPass: ''
       },
       rules: {
         email: [
-          { validator: checkEmail, trigger: "blur" }
+          { validator: checkEmail, trigger: 'blur' }
         ],
         password: [
-          { validator: validatePass, trigger: "blur" }
+          { validator: validatePass, trigger: 'blur' }
         ],
         checkPass: [
-          { required: true, message: "请再次输入密码", trigger: "blur" },
-          { validator: validatePass2, trigger: "blur" }
+          { required: true, message: '请再次输入密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'blur' }
         ],
         age: [
-          { validator: checkAge, trigger: "blur" }
+          { validator: checkAge, trigger: 'blur' }
         ]
       }
-
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          try {
-            const response = await api.register(this.ruleForm)
-
-            if (response.data.code === '0'){
-              alert('注册成功!');
-              await this.$router.push('/login')
-            }else if(response.data.code === '10000') {
-              alert('该用户已存在');
-            }
-
-          }catch (error){
-            console.log(error)
-          }
-
-
+    async reg_submitForm(formName) {
+      try {
+        const response = await api.register(this.ruleForm);
+        if (response.data.code === '0') {
+          alert('注册成功!');
+          await this.$router.push('/login');
+        } else if (response.data.code === '10000') {
+          alert('该用户已存在');
         }
-      });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+
+
+    switchToLogin() {
+      this.$router.push('/login');
     }
   }
-}
+};
 </script>
+
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*background: linear-gradient(to right, #f7d1d7, #bfe3f1);*/
 }
-body {
-  background: rgb(135, 206, 235);
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-#admin {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -200px;
-  margin-left: -250px;
-  width: 500px;
-  height: 550px;
-  background: #fff;
-  border-radius: 10%;
-  box-shadow: 8px 10px 10px rgb(177, 223, 242);
-}
-.adminh1 {
-  margin: 20px 0;
-  text-shadow: 10px 13px 3px rgb(207, 207, 207);
+
+.registration-content {
+  width: 400px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
-.pos {
-  width: 450px;
-  height: 350px;
-  position: absolute;
-  top: 25px;
-  left: 25px;
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #69b3f0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+
+.switch-link {
+  color: #888;
+  cursor: pointer;
+}
+
+.switch-link:hover {
+  text-decoration: underline;
 }
 </style>

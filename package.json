@@ -8,7 +8,9 @@
     "@vue/cli-service": "~5.0.0"
   },
   "dependencies": {
+    "jquery": "^3.7.0",
     "moment": "^2.29.4",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "^3.0.6",
+    "vuelidate": "^0.7.7"
   }
 }

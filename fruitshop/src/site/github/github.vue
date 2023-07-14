@@ -9,10 +9,8 @@
 
 <script>
 import api from "@/api/api";
-import TempTest from "@/site/blog/tempTest.vue";
 export default {
   name: "github",
-  components: {TempTest},
   methods:{
     getUserInfo(){
       const token = localStorage.getItem('token')

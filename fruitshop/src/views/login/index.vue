@@ -1,44 +1,26 @@
 <template>
-  <div id="app">
-    <div id="admin">
-      <div class="pos" v-loading="loading">
-        <h1 class="adminh1">用户登录</h1>
-        <el-form
-          :model="ruleForm"
-          status-icon
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="用户名：" prop="pass">
-            <el-input
-              prefix-icon="el-icon-user"
-              style="width: 250px"
-              type="text"
-              v-model="ruleForm.pass"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="密码：" prop="checkPass">
-            <el-input
-              prefix-icon="el-icon-menu"
-              style="width: 250px"
-              show-password
-              type="password"
-              v-model="ruleForm.checkPass"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <router-link to="/register">
-              <el-button type="success" style="float: left; margin-left: 50px">注册</el-button>
-            </router-link>
-            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          </el-form-item>
-        </el-form>
+  <div class="container" :style="{'background-image': `url(${require('@/assets/header/headBackground.png')})`, 'background-size': 'auto 100%'}">
+
+  <div class="login-container">
+    <div class="login-content">
+      <h1>Welcome</h1>
+      <p>Hotan-Blog</p>
+      <div class="logo">
+        <img src="@/assets/logo/DeckLiza.png" alt="Logo">
       </div>
+      <h2 class="form-title">登录</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <input type="text" placeholder="用户名" v-model="ruleForm.name">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="密码" v-model="ruleForm.pass">
+        </div>
+        <button type="submit" @click="submitForm">登录</button>
+      </form>
+      <p class="switch-link" @click="switchToRegistration">没有账号？去注册</p>
     </div>
+  </div>
   </div>
 </template>
 
@@ -46,10 +28,10 @@
 import axios from 'axios';
 import { mapActions } from 'vuex';
 
-const API_LOGIN = 'http://localhost:8088/api/user/login';
+const API_LOGIN = 'http://hotan.site:8088/api/user/login';
 
 export default {
-  name: 'app',
+  name: 'LoginPage',
   data() {
     const validatePass = (rule, value, callback) => {
       if (!value) {
@@ -70,14 +52,14 @@ export default {
     return {
       loading: false,
       ruleForm: {
-        pass: 'John',
-        checkPass: 'password123',
+        name: '',
+        pass: '',
       },
       rules: {
-        pass: [
+        name: [
           { validator: validatePass, trigger: 'blur' }
         ],
-        checkPass: [
+        pass: [
           { validator: validatePass2, trigger: 'blur' }
         ],
       },
@@ -85,11 +67,11 @@ export default {
   },
   methods: {
     ...mapActions(['saveToken']),
-    async submitForm(formName) {
+    async submitForm() {
       try {
         const response = await axios.post(API_LOGIN, {
-          name: this.ruleForm.pass,
-          password: this.ruleForm.checkPass,
+          name: this.ruleForm.name,
+          password: this.ruleForm.pass,
         });
         const data = response.data;
         console.log(response.data);
@@ -97,7 +79,7 @@ export default {
           const token = response.data.data;
           localStorage.setItem('token', token);
           alert('登录成功');
-          await this.$router.push('/home');
+          await this.$router.push('/firstpages');
         } else {
           console.log('登录失败');
           alert('账号或密码错误');
@@ -106,47 +88,82 @@ export default {
         console.error('登录错误：', error);
       }
     },
+    switchToRegistration() {
+      this.$router.push('/register');
+    },
+    LoginNow(){
+      this.$router.push('/firstpages')
+    }
   },
 };
 </script>
+
 <style>
-* {
-  padding: 0;
-  margin: 0;
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*background: linear-gradient(to right, #f7d1d7, #bfe3f1);*/
 }
-body {
-  background: rgb(135, 206, 235);
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-#admin {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -200px;
-  margin-left: -250px;
-  width: 500px;
-  height: 550px;
-  background: #fff;
-  border-radius: 10%;
-  box-shadow: 8px 10px 10px rgb(177, 223, 242);
-}
-.adminh1 {
-  margin: 20px 0;
-  text-shadow: 10px 13px 3px rgb(207, 207, 207);
+
+.login-content {
+  width: 400px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
-.pos {
-  width: 450px;
-  height: 350px;
-  position: absolute;
-  top: 25px;
-  left: 25px;
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #69b3f0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+
+.switch-link {
+  color: #888;
+  cursor: pointer;
+}
+
+.switch-link:hover {
+  text-decoration: underline;
 }
 </style>
-
-
