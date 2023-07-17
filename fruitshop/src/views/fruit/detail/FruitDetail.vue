@@ -73,7 +73,7 @@ export default{
             message: '确认',
           })
           this.distinguishCancelAndClose=true
-          axios.delete(`http://localhost:8088/api/product/delete/${id}`)
+          axios.delete(`http://hotan.site:8088/api/product/delete/${id}`)
             .then(response=>{
               axios.get().then(response=>{
                 this.fruits = response.data

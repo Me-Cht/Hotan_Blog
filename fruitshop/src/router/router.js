@@ -2,10 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import register from "@/views/register/index.vue";
 import todolist from "@/site/product/todolist/todolist.vue";
-import home from "@/site/home/index.vue";
-import HomeContent from "@/site/home/HomeContent.vue";
+import home from "@/pages/Home.vue";
 import about from "@/site/about/about.vue";
-import blog from "@/site/blog/index.vue";
+import blog from "@/pages/Blog.vue";
 import product from "@/site/product/mianpage/index.vue";
 import github from "@/site/github/github.vue";
 import login from "@/views/login/index.vue";
@@ -16,6 +15,12 @@ import edit from "@/views/fruit/edit/index.vue";
 import add from "@/views/fruit/add/index.vue";
 import userdetail from "@/views/user/userdetail/index.vue";
 import store from "@/store/store";
+import info from "@/pages/Info.vue";
+import {head} from "axios";
+import header from "@/components/Header.vue";
+import mylogin from "@/views/login/mylogin.vue";
+import firstPages from "@/components/FirstPages.vue";
+
 
 Vue.use(VueRouter)
 // function isAuthenticated() {
@@ -24,16 +29,21 @@ Vue.use(VueRouter)
 // }
 
 const routes = [
-    { path:'/' ,redirect:'/login'},
+    { path:'/' ,redirect:'/firstpages'},
     { path:'/register',component: register},
     {path:'/todolist',component: todolist},
     { path: '/home',component: home,
         children: [
-            {path:'/main',component: HomeContent},
             { path:'/about',component: about},
             { path:'/blog',component: blog},
             { path:'/product',component: product},
-            { path:'/github',component: github}
+            { path: '/info',component: info},
+            {path:'/mylogin',component: mylogin},
+            {path:'/firstpages',component: firstPages},
+
+            { path:'/github',component: github,
+            children:[
+            ]}
 
         ]},
     { path: '/login',component: login},
@@ -46,6 +56,8 @@ const routes = [
             { path:'/userdetail',component: userdetail}
 
         ]},
+    {path :'/header',component: header}
+
 ]
 
 const router = new VueRouter({

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d1dabdd6-e586-4797-83e5-246b4be50448" name="hotan.site">
+        <fileTransfer accessType="SFTP" host="hotan.site" port="22" sshConfigId="e13f69bc-eee0-4a27-a8db-fb1bb7f61f7e" sshConfig="root@hotan.site:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

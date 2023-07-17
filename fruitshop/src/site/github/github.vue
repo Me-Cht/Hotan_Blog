@@ -1,6 +1,7 @@
 <template>
 <div>
   <el-button @click="getUserInfo">获取用户信息接口测试</el-button>
+  <router-link to="/temp">temp</router-link>
 
 </div>
 

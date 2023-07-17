@@ -32,7 +32,7 @@ export default {
   },
   mounted() {
     const id = this.$route.params.id;
-    axios.get(`http://localhost:8088/api/product/findById/${id}`)
+    axios.get(`http://hotan.site:8088/api/product/findById/${id}`)
         .then(response => {
           this.form = response.data
           console.log("获取成功！")
@@ -45,7 +45,7 @@ export default {
     submitForm() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          axios.put(`http://localhost:8088/api/product/update/${this.form.id}`, this.form)
+          axios.put(`http://hotan.site:8088/api/product/update/${this.form.id}`, this.form)
               .then(response => {
                 console.log('修改成功！')
                 this.$router.push('/')
