@@ -2,6 +2,7 @@
   <div>
     <header-nav></header-nav>
     <router-view></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import {defineComponent} from "vue";
 import header from "@/components/Header.vue";
 
 import api from "@/api/api";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "index",
@@ -24,6 +26,7 @@ export default {
     }
   },
   components:{
+    Footer,
     "header-nav":header
   },
   mounted() {
@@ -52,3 +55,9 @@ export default {
 }
 </script>
 
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+</style>

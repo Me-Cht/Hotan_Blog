@@ -20,6 +20,8 @@ import {head} from "axios";
 import header from "@/components/Header.vue";
 import mylogin from "@/views/login/mylogin.vue";
 import firstPages from "@/components/FirstPages.vue";
+import changePass from "@/pages/ChangePass.vue";
+import aboutProduct from "@/site/about/aboutProduct.vue";
 
 
 Vue.use(VueRouter)
@@ -29,17 +31,21 @@ Vue.use(VueRouter)
 // }
 
 const routes = [
-    { path:'/' ,redirect:'/firstpages'},
+    { path: '/', redirect: '/login'},
     { path:'/register',component: register},
     {path:'/todolist',component: todolist},
     { path: '/home',component: home,
+        // meta:{
+        //     requiresAuth:true
+        // },
+
         children: [
-            { path:'/about',component: about},
-            { path:'/blog',component: blog},
-            { path:'/product',component: product},
-            { path: '/info',component: info},
-            {path:'/mylogin',component: mylogin},
-            {path:'/firstpages',component: firstPages},
+            { path:'/about',component: about,meta:{requiresAuth:true}},
+            { path:'/blog',component: blog,meta:{requiresAuth:true}},
+            { path:'/product',component: product,meta:{requiresAuth:true}},
+            { path: '/info',component: info,meta:{requiresAuth:true}},
+            {path:'/firstpages',component: firstPages,meta:{requiresAuth:true}},
+            { path:'/aboutProduct',component: aboutProduct,meta:{requiresAuth:true}},
 
             { path:'/github',component: github,
             children:[
@@ -47,6 +53,7 @@ const routes = [
 
         ]},
     { path: '/login',component: login},
+    { path: '/changePass',component: changePass},
     { path: '/dashboard',component: Dashboard,
         children:[
             { path:'/detail',component: detail},
@@ -65,27 +72,22 @@ const router = new VueRouter({
     routes,
 })
 router.beforeEach((to, from, next) => {
-    /*检查是否需要认证：根据路由元信息（meta）中的requiresAuth属性，判断当前路由是否需要认证才能访问。*/
+    const token = localStorage.getItem('token')
 
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-    /*检查是否已认证：从本地存储（localStorage）中获取用户信息，判断是否已认证。*/
-
-    const isAuthenticated = JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).token;
-    /*控制路由切换：如果当前路由需要认证而用户未认证，则跳转到登录页面；否则，允许路由切换。*/
-    if (requiresAuth && !isAuthenticated && to.path !== '/') {
-        next('/');
-        //next()用于继续路由切换，而next('/')则用于中断路由切换并跳转到指定的路由。
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // 需要登录验证的路由
+        if (!token) {
+            // 存在 token，允许跳转到目标路由
+            next('/login')
+        } else {
+            // 不存在 token，跳转到登录页
+            next()
+        }
     } else {
-        const token = localStorage.getItem('token');
-        store.commit('setToken', token);
-
+        // 不需要登录验证的路由，直接允许跳转
         next()
-
     }
-
-}
-);
+})
 
 export default router
 

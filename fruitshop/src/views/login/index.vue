@@ -16,22 +16,29 @@
         <div class="form-group">
           <input type="password" placeholder="密码" v-model="ruleForm.pass">
         </div>
-        <button type="submit" @click="submitForm">登录</button>
+        <button type="submit">登录</button>
       </form>
       <p class="switch-link" @click="switchToRegistration">没有账号？去注册</p>
     </div>
+
   </div>
+    <Footer></Footer>
+
+
   </div>
+
 </template>
 
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex';
+import Footer from "@/components/Footer.vue";
 
 const API_LOGIN = 'http://hotan.site:8088/api/user/login';
 
 export default {
   name: 'LoginPage',
+  components: {Footer},
   data() {
     const validatePass = (rule, value, callback) => {
       if (!value) {
@@ -74,7 +81,6 @@ export default {
           password: this.ruleForm.pass,
         });
         const data = response.data;
-        console.log(response.data);
         if (data.code === '0') {
           const token = response.data.data;
           localStorage.setItem('token', token);
@@ -98,10 +104,26 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+body {
+  position: relative;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
 .login-container {
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
+
   align-items: center;
   height: 100vh;
   /*background: linear-gradient(to right, #f7d1d7, #bfe3f1);*/
@@ -165,5 +187,14 @@ button {
 
 .switch-link:hover {
   text-decoration: underline;
+}
+
+/* 添加z-index样式 */
+Footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 100; /* 调整此值以确保Footer在其他内容之上 */
 }
 </style>

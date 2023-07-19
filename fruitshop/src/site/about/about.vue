@@ -1,5 +1,5 @@
 <template>
-  <div class="container-blog">
+  <div class="container-about">
 
     <article class="about-page">
       <section class="about-box">
@@ -14,14 +14,19 @@
           <div class="info-box">
             <div class="about-info-box">
               <div class="about-box-title">
-                工作经历
+                在校经历
               </div>
               <div class="about-timeline-box work-timeline">
                 <p class="line-item">
-                  xxx 前端开发 (xxxx.xx-xxxx.xx)
+                  陈河天-求职意向：前端开发
                 </p>
+
+
                 <p class="line-item">
                   SuperData大学生创新创业团队
+                </p>
+                <p class="line-item">
+                  深圳森拓信息技术有限公司-网络工程
                 </p>
               </div>
             </div>
@@ -54,18 +59,15 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-template {
-
-}
 .about-box {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 70%;
-  left: 50%;
+  //position: absolute;
+  //top: 70%;
+  left: 20%;
   width: 600px;
   height: 600px;
-  transform: translate(-50%, -50%);
+  //transform: translate(-50%, -50%);
   //border: 1px solid red;
 }
 
