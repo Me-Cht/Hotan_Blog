@@ -27,6 +27,8 @@
       <p class="switch-link" @click="switchToLogin">已有账号？去登录</p>
     </div>
   </div>
+    <Footer></Footer>
+
   </div>
 </template>
 
@@ -34,9 +36,11 @@
 import api from "@/api/api";
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: 'RegistrationPage',
+  components: {Footer},
   data() {
     const checkAge = (rule, value, callback) => {
       if (!value) {
@@ -133,6 +137,15 @@ export default {
 </script>
 
 <style scoped>
+body {
+  position: relative;
+}
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
 .registration-container {
   display: flex;
   justify-content: center;

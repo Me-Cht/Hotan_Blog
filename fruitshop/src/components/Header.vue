@@ -23,9 +23,13 @@
 
                 </router-link>
               </template>
-              <el-menu-item index="2-1">作者简历</el-menu-item>
-              <el-menu-item index="2-2">留言板</el-menu-item>
-              <el-menu-item index="2-3">关于本项目</el-menu-item>
+              <el-menu-item index="2-1" disabled="作者开发中">作者简历</el-menu-item>
+              <el-menu-item index="2-2" disabled="">留言板</el-menu-item>
+              <el-menu-item index="2-3">
+                <router-link to="/aboutProduct">
+                  关于本项目
+                </router-link>
+              </el-menu-item>
 
             </el-submenu>
             <el-menu-item index="3">
@@ -60,8 +64,8 @@
                 </router-link>
               </el-menu-item>
               <el-menu-item index="2-2" @click="switchToForgetPassword">修改密码</el-menu-item>
-              <el-menu-item index="2-3">帮助中心</el-menu-item>
-              <el-menu-item index="2-3" @click="switchToForgetPassword">退出登陆</el-menu-item>
+              <el-menu-item index="2-3" disabled="">帮助中心</el-menu-item>
+              <el-menu-item index="2-3" @click="switchToLogin">退出登陆</el-menu-item>
 
             </el-submenu>
             <!--            <div class="userInfo">-->
@@ -185,7 +189,12 @@ export default {
       }
     },
     switchToForgetPassword() {
-      this.$router.push('/login');
+      this.$router.push('/changePass');
+    },
+    switchToLogin(){
+      localStorage.removeItem('token')
+
+      this.$router.push('/login')
     },
     switchToFirstPages() {
       this.$router.push('/firstpages')
@@ -323,6 +332,7 @@ export default {
 
 
 <style>
+
 .pcBox {
   position: fixed;
   top: 0;
@@ -530,7 +540,6 @@ a {
 /*顶部背景图*/
 .headImgBox {
   width: 100%;
-  height: 300px;
 }
 
 .headImgBox img {
