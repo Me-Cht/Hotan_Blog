@@ -30,6 +30,11 @@
                   关于本项目
                 </router-link>
               </el-menu-item>
+              <el-menu-item>
+                <router-link to="/aboutOtherProduct">
+                  关于其他项目
+                </router-link>
+              </el-menu-item>
 
             </el-submenu>
             <el-menu-item index="3">

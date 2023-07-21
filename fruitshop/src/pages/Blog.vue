@@ -8,27 +8,32 @@
 <!--      </ul>-->
 <!--    </aside>-->
     <!-- 博客内容撰写 -->
-    <div class="blog-write">
-      <el-card v-if="!showEditor" class="blog-write" transition="fade">
-        <button type="primary" @click="showEditor = true">写博客</button>
-      </el-card>
 
-      <el-card v-else>
-        <el-form label-position="top">
+    <el-button type="primary" @click="handleAdd" >写博客<i class="el-icon-circle-plus-outline"></i></el-button>
 
-          <el-form-item label="标题" class="title">
-            <el-input v-model="blog.title" class="custom-input"></el-input>
-          </el-form-item>
-          <el-form-item label="内容">
-            <quill-editor v-model="blog.content" class="custom-editor">测试</quill-editor>
-          </el-form-item>
-          <div class="editor-actions">
-            <button type="primary" @click="saveBlog" id="blog-btn">保存</button>
-            <button @click="cancelBlog" id="blog-btn">取消</button>
-          </div>
-        </el-form>
-      </el-card>
-    </div>
+    <el-table :data="blogs" >
+      <template slot-scope="scope">
+        <el-button type="success" @click="handleEdit(scope.row)" >编辑 <i class="el-
+            icon-edit"></i>
+        </el-button>
+      </template>
+    </el-table>
+
+    <el-dialog title="文章信息" :visible.sync="dialogFormVisible" width="60%" >
+      <el-form label-width="80px" size="small">
+        <el-form-item label="文章标题">
+          <el-input v-model="blog.title" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="文章内容">
+          <mavon-editor ref="md" v-model="blog.content" :ishljs="true" @imgAdd="imgAdd"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveBlog">确 定</el-button>
+      </div>
+    </el-dialog>
+
 
     <!-- 博客内容 -->
     <div class="blog-text">
@@ -38,7 +43,7 @@
         <div class="blog-title" style="font-size: 30px;font-weight: bold;">{{ blog.title }}</div>
       </el-row>
       <el-row>
-        <div v-html="blog.content"></div>
+        <vue-markdown :source="blog.content" ></vue-markdown>
       </el-row>
       <el-row>
         <div class="create_time">{{ formatDateTime(blog.create_time) }}</div>
@@ -52,12 +57,26 @@
 <script>
 import api from "@/api/api";
 import moment from 'moment';
-
+import VueMarkdown from 'vue-markdown'; // 引入 vue-markdown
 
 export default {
+  components:{
+    // VueMarkdown,
+    VueMarkdown, // 注册 vue-markdown 组件
+
+
+  },
+
+
   data() {
     return {
+      tableData: [],
+
       showEditor: false,
+      markdownContent: '# 你好，*Vue-Markdown*！',
+      form:{},
+      dialogFormVisible:false,
+      viewDialogVis:false,
 
       blog: {
         id: '',
@@ -72,9 +91,45 @@ export default {
     };
   },
   methods: {
+
+    handleAdd() {
+      this.dialogFormVisible = true
+      this.form = {}
+    },
+    handleEdit(row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.dialogFormVisible = true
+    },
+// 绑定@imgAdd event
+    imgAdd(pos, $file) {
+      let $vm = this.$refs.md
+      // 第一步.将图片上传到服务器.
+      const formData = new FormData();
+      formData.append('file', $file);
+      axios({
+        url: `http://${serverHost}/file/upload`,
+        method: 'post',
+        data: formData,
+        headers: {'Content-Type': 'multipart/form-data'},
+      }).then((res) => {
+        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+        /**
+         * $vm 指为mavonEditor实例，可以通过如下两种方式获取
+         * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，
+         * `$vm`为`mavonEditor`
+         * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，
+         * `$vm`为 `this.$refs.md`
+         */
+        $vm.$img2Url(pos, res.data);
+      })
+    },
+
+
+
     formatDateTime(dateTime) {
       return moment(dateTime).format('YYYY-MM-DD HH:mm');
     },
+
 
     selectBlog(blog) {
       this.selectedBlog = blog;
@@ -98,8 +153,16 @@ export default {
         api.writeArticle(this.blog)
           .then(response => {
             const createTime = response.data.data.create_time;
-            this.blogs = response.data
-            console.log("调用了write方法")
+
+            // 更新 blogs 数组，将新发表的博客添加到数组开头
+            this.blogs.unshift({
+              id: response.data.data.id,
+              title: this.blog.title,
+              content: this.blog.content, // 可能需要将 this.blog.content 转换为 Markdown 格式
+              author_id: this.blog.author_id,
+              create_time: createTime,
+              auth_name: temp.name, // 假设 temp 中有博客作者的姓名
+            });
 
             this.cancelBlog();
             this.refreshBlogs(); // 调用刷新博客列表的方法

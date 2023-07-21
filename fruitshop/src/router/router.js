@@ -22,6 +22,7 @@ import mylogin from "@/views/login/mylogin.vue";
 import firstPages from "@/components/FirstPages.vue";
 import changePass from "@/pages/ChangePass.vue";
 import aboutProduct from "@/site/about/aboutProduct.vue";
+import aboutOtherProduct from "@/site/about/aboutOtherProduct.vue";
 
 
 Vue.use(VueRouter)
@@ -46,6 +47,7 @@ const routes = [
             { path: '/info',component: info,meta:{requiresAuth:true}},
             {path:'/firstpages',component: firstPages,meta:{requiresAuth:true}},
             { path:'/aboutProduct',component: aboutProduct,meta:{requiresAuth:true}},
+            { path:'/aboutOtherProduct',component: aboutOtherProduct,meta:{requiresAuth:true}},
 
             { path:'/github',component: github,
             children:[

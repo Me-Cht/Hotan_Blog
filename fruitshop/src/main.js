@@ -11,10 +11,15 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.config.productionTip = false
+Vue.use(mavonEditor)
+
 
 
 new Vue({
