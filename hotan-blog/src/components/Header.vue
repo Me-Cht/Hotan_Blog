@@ -142,8 +142,16 @@
 
       </el-col>
     </el-row>
-    <div class="headImgBox">
-      <img src="../assets/header/headBackground.png" alt="" style="width: 100%; height: 100%;">
+    <div class="container-head-img">
+      <div class="inner">
+        <img src="../assets/logo/DeckLiza.png" alt="">
+        <img src="../assets/logo/留言板.png" alt="">
+        <img src="../assets/logo/DeckLiza.png" alt="">
+        <img src="../assets/logo/留言板.png" alt="">
+        <img src="../assets/logo/DeckLiza.png" alt="">
+        <img src="../assets/logo/留言板.png" alt="">
+      </div>
+<!--      <img src="../assets/header/headBackground.png" alt="" style="width: 100%; height: 100%;">-->
 
     </div>
 
@@ -336,7 +344,80 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+@use "sass:math";
+
+body {
+  background: linear-gradient(to bottom, #FFA07A, #FFC0CB, #DA70D6, #4B0082);
+
+}
+
+/*旋转图片效果*/
+$size : 250px;
+$r : $size / 2;
+$n : 6;
+$pDeg : 360deg / $n;
+$R : $r /math.sin($pDeg / 2);
+$innerSize : $R * 2;
+
+.container-head-img {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  outline:5px solid #fff;
+  margin: 50px auto;
+  display:flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.inner {
+  width: $innerSize;
+  height: $innerSize;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: $r;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: rotation 10s ease-in-out infinite;
+  img {
+    width: $size;
+    height: $size;
+    flex-shrink: 0;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    margin-left: -$r;
+    top:-$r;
+    transform-origin: center #{$R +$r};
+    @for $i from 1 through $n {
+      &:nth-child(#{$i}){
+        transform:rotate($pDeg*($i - 1))
+      }
+    }
+
+  }
+}
+$u : 1 /$n * 100%;
+$rotateDuration: 1.5s;
+$stopDuration:1s;
+$duration:($rotateDuration+$stopDuration) * $n;
+$backPercent:$stopDuration / ($rotateDuration + $stopDuration) * $u;
+@keyframes  rotation{
+  @for $i from 1 through $n {
+    $p:$u * $i;
+    $deg:$pDeg * $i;
+    #{$p - $backPercent},#{$p}{
+      transform:rotate(-$deg)
+    }
+  }
+
+
+}
+
+
+/*旋转图片效果*/
+
 
 .pcBox {
   position: fixed;
@@ -484,10 +565,10 @@ a {
     display: block;
   }
 
-  .headImgBox img {
-    width: 100%;
-    height: 100px;
-  }
+  //.headImgBox img {
+  //  width: 100%;
+  //  height: 100px;
+  //}
 
 
 }
@@ -543,24 +624,24 @@ a {
 
 
 /*顶部背景图*/
-.headImgBox {
-  width: 100%;
-}
+//.headImgBox {
+//  width: 100%;
+//}
 
-.headImgBox img {
-  width: 100%;
-  height: 100%;
-  transition: 2s all ease-in;
-  border-radius: 20%;
-  opacity: 0.8;
-
-}
-
-.headImgBox img:hover {
-  border-radius: 5%;
-  opacity: 1;
-
-}
+//.headImgBox img {
+//  width: 100%;
+//  height: 100%;
+//  transition: 2s all ease-in;
+//  border-radius: 20%;
+//  opacity: 0.8;
+//
+//}
+//
+//.headImgBox img:hover {
+//  border-radius: 5%;
+//  opacity: 1;
+//
+//}
 
 .headBox,a {
   color: white;
