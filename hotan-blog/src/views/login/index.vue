@@ -85,7 +85,7 @@ export default {
           const token = response.data.data;
           localStorage.setItem('token', token);
           alert('登录成功');
-          await this.$router.push('/firstpages');
+          await this.$router.push('/blog');
         } else {
           console.log('登录失败');
           alert('账号或密码错误');
@@ -98,7 +98,7 @@ export default {
       this.$router.push('/register');
     },
     LoginNow(){
-      this.$router.push('/firstpages')
+      this.$router.push('/blog')
     }
   },
 };

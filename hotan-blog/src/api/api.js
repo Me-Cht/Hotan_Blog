@@ -116,16 +116,25 @@ export const addFruit = () => {
 // articleAPI
 export const getArticle=()=>{
     return request('get','/api/article/findAll')
-
 }
 
-export const writeArticle = (article) =>{
-    return request('post','/api/article/write',article)
+
+export const writeArticle = (blog) =>{
+    return axios.post('/api/article/write', blog, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
 }
 
 export const getSelfArticle = (id) => {
     return axios.get(`/api/article/myblog/${id}`);
 }
+
+// export const getArticleCategory = () => {
+//     return
+// }
 
 
 

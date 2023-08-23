@@ -32,7 +32,7 @@ Vue.use(VueRouter)
 // }
 
 const routes = [
-    { path: '/', redirect: '/login'},
+    { path: '/', redirect: '/blog'},
     { path:'/register',component: register},
     {path:'/todolist',component: todolist},
     { path: '/home',component: home,
@@ -48,7 +48,6 @@ const routes = [
             {path:'/firstpages',component: firstPages,meta:{requiresAuth:true}},
             { path:'/aboutProduct',component: aboutProduct,meta:{requiresAuth:true}},
             { path:'/aboutOtherProduct',component: aboutOtherProduct,meta:{requiresAuth:true}},
-
             { path:'/github',component: github,
             children:[
             ]}

@@ -23,7 +23,7 @@
 
                 </router-link>
               </template>
-              <el-menu-item index="2-1" disabled="作者开发中">作者简历</el-menu-item>
+              <el-menu-item index="2-1" disabled="">作者简历</el-menu-item>
               <el-menu-item index="2-2" disabled="">留言板</el-menu-item>
               <el-menu-item index="2-3">
                 <router-link to="/aboutProduct">
@@ -73,29 +73,6 @@
               <el-menu-item index="2-3" @click="switchToLogin">退出登陆</el-menu-item>
 
             </el-submenu>
-            <!--            <div class="userInfo">-->
-            <!--              <div v-show="!haslogin" class="nologin">-->
-
-            <!--                <a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|<a href="javascript:void(0);" @click="logoinFun(0)">&nbsp;注册</a>-->
-            <!--              </div>-->
-            <!--              <div v-show="haslogin" class="haslogin">-->
-            <!--                <i class="fa fa-fw fa-user-circle userImg"></i>-->
-            <!--                <ul class="haslogin-info">-->
-            <!--                  <li>-->
-            <!--                    <a href="#/info">个人中心</a>-->
-            <!--                  </li>-->
-            <!--                  <li>-->
-            <!--                    <a href="#/LikeCollect?like=1">喜欢列表</a>-->
-            <!--                  </li>-->
-            <!--                  <li>-->
-            <!--                    <a href="#/LikeCollect?like=2">收藏列表</a>-->
-            <!--                  </li>-->
-            <!--                  <li>-->
-            <!--                    <a href="javascript:void(0);" @click="userlogout">退出登录</a>-->
-            <!--                  </li>-->
-            <!--                </ul>-->
-            <!--              </div>-->
-            <!--            </div>-->
 
           </el-menu>
         </div>
