@@ -36,7 +36,7 @@
 import api from "@/api/api";
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
-import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer/Footer.vue";
 
 export default {
   name: 'RegistrationPage',

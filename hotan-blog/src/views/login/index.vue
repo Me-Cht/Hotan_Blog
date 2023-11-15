@@ -32,7 +32,7 @@
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex';
-import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer/Footer.vue";
 
 const API_LOGIN = 'http://hotan.site:8088/api/user/login';
 

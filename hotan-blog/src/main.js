@@ -19,8 +19,16 @@ Vue.use(VueRouter);
 Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.config.productionTip = false
 Vue.use(mavonEditor)
-
+import "highlight.js/styles/github.css"; // 引入 highlight.js 的样式，这里使用的是 GitHub 风格的样式
+import hljs from 'highlight.js';
 document.title = 'Hotan-Blog'; // 设置浏览器标签栏标题
+
+Vue.directive('highlight', function (el) {
+  const blocks = el.querySelectorAll('pre code')
+  blocks.forEach(block => {
+    block.innerHTML = hljs.highlightAuto(block.textContent).value
+  })
+})
 
 
 new Vue({

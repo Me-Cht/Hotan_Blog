@@ -115,7 +115,7 @@
 import api from "@/api/api";
 import moment from 'moment';
 import VueMarkdown from 'vue-markdown';
-import AddTopic from "@/components/AddTopic.vue";
+import AddTopic from "@/components/Blog/AddTopic.vue";
 import axios from "axios";
 import edit from "@/views/fruit/edit/index.vue";
 import {req} from "vuelidate/lib/validators/common"; // 引入 vue-markdown
